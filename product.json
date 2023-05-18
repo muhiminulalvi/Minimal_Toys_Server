@@ -1,0 +1,93 @@
+[
+  {
+
+    "product_id": 1,
+    "picture": "https://i.ibb.co/zFKd8vZ/pexels-mike-bird-97353.jpg",
+    "name": "Speedster Supreme",
+    "description": "Experience the thrill of speed with the sleek and aerodynamic Speedster Supreme. Its vibrant red color and smooth curves make it a standout choice for racing enthusiasts.",
+    "price": "$19.99",
+    "rating": 4.5,
+    "category": "Racing Cars"
+    
+  },
+  {
+
+    "product_id": 2,
+    "picture": "https://i.ibb.co/VL16Xym/pexels-archit-rege-574519.jpg",
+    "name": "Off-Road Adventure",
+    "description": "Conquer any terrain with the Off-Road Adventure toy car. Equipped with rugged tires and a sturdy build, this car is ready to tackle the toughest off-road challenges.",
+    "price": "$24.99",
+    "rating": 4.2,
+    "category": "Racing Cars"
+  },
+  {
+
+    "product_id": 3,
+    "picture": "https://i.ibb.co/GP0sVqf/pexels-mike-bird-381228.jpg",
+    "name": "Classic Cruiser",
+    "description": "Take a trip down memory lane with the Classic Cruiser toy car. With its retro design and elegant finish, this car is a timeless beauty that will delight collectors of all ages.",
+    "price": "$14.99",
+    "rating": 4.7,
+    "category": "Racing Cars"
+  },
+  {
+
+    "product_id": 4,
+    "picture": "https://i.ibb.co/NNTBDrn/pexels-erik-mclean-13047778.jpg",
+    "name": "Super Speed Racer",
+    "description": "Unleash your need for speed with the Super Speed Racer. This lightning-fast toy car features a streamlined design and high-performance wheels for thrilling racing adventures.",
+    "price": "$29.99",
+    "rating": 4.9,
+    "category": "Trucks"
+  },
+  {
+
+    "product_id": 5,
+    "picture": "https://i.ibb.co/BtNsJyM/pexels-revac-film-s-photography-54278.jpg",
+    "name": "City Explorer",
+    "description": "Navigate the busy city streets with the City Explorer toy car. Its compact size and agile maneuverability make it the perfect choice for urban adventures.",
+    "price": "$12.99",
+    "rating": 4.3,
+    "category": "Trucks"
+  },
+  {
+
+    "product_id": 6,
+    "picture": "https://i.ibb.co/C758Byz/pexels-pawe-l-1186477.jpg",
+    "name": "Monster Truck Madness",
+    "description": "Experience the thrill of monster truck rallies with the Monster Truck Madness toy car. Its oversized tires and robust suspension system can handle the most extreme stunts.",
+    "price": "$34.99",
+    "rating": 4.6,
+    "category": "Trucks"
+  },
+  {
+
+    "product_id": 7,
+    "picture": "https://i.ibb.co/QjdYgc8/pexels-thales-silva-772393.jpg",
+    "name": "Vintage Roadster",
+    "description": "Step back in time with the Vintage Roadster toy car. Inspired by classic automobiles of the past, this exquisite replica captures the essence of vintage charm.",
+    "price": "$21.99",
+    "rating": 4.4,
+    "category": "Regular Cars"
+  },
+  {
+
+    "product_id": 8,
+    "picture": "https://i.ibb.co/RcDnQk6/pexels-akheel-ahamed-6789979.jpg",
+    "name": "Sports Champion",
+    "description": "Unleash your inner athlete with the Sports Champion toy car. Its sporty design and vibrant colors make it a winner on and off the track.",
+    "price": "$17.99",
+    "rating": 4.8,
+    "category": "Regular Cars"
+  },
+  {
+
+    "product_id": 9,
+    "picture": "https://i.ibb.co/wCk5knB/pexels-pixabay-163696.jpg",
+    "name": "Convertible Joyride",
+    "description": "Enjoy the open road with the Convertible Joyride toy car. Its sleek convertible design and luxurious interior make every drive a delightful experience.",
+    "price": "$26.99",
+    "rating": 4.7,
+    "category": "Regular Cars"
+  }
+]

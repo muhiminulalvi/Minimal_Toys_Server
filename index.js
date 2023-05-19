@@ -63,8 +63,22 @@ async function run() {
 
 
     // my toys
-    app.get('/myToys/:email', async(req, res) => {
-      
+    app.get('/mytoys', async(req, res) => {
+      console.log(req.query.email);
+      let query = {}
+      if(req.query?.email){
+        query = {email: req.query.email}
+      }
+      const result = await addToyCollection.find(query).toArray()
+      res.send(result)
+    })
+
+    // delete
+    app.delete('/mytoys/:id', async(req, res)=> {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await addToyCollection.deleteOne(query)
+      res.send(result)
     })
 
     // get toy by filtering

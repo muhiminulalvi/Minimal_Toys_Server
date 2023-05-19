@@ -27,19 +27,35 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const toyCollection = client.db('minimalToys').collection('toys');
+    // const toyCollection = client.db('minimalToys').collection('toys');
+  
+    // app.get('/toys/:text', async(req, res) => {
+      
+        
+    // })
+
+    // add toy
+    const addToyCollection = client.db('minimalToys').collection('addToy')
+    app.post('/addtoy', async(req,res) => {
+        const body = req.body
+        const result = await addToyCollection.insertOne(body)
+        console.log(result);
+        res.send
+    })
+
     app.get('/toys/:text', async(req, res) => {
       console.log(req.params.text);
       if(req.params.text == "racing" || req.params.text == "regular" || req.params.text == "trucks"){
-        const cursor = toyCollection.find({category: req.params.text})
+        const cursor = addToyCollection.find({category: req.params.text})
         const result = await cursor.toArray()
         return res.send(result)
       }
-        const cursor = toyCollection.find()
+      const cursor = addToyCollection.find()
         const result = await cursor.toArray()
         res.send(result)
+      // const result = await addToyCollection.find({}).toArray()
+      // res.send(result)
     })
-
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

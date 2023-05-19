@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require('dotenv').config()
 const port = process.env.PORT || 5000;
 const app = express();
@@ -40,7 +40,7 @@ async function run() {
         const body = req.body
         const result = await addToyCollection.insertOne(body)
         console.log(result);
-        res.send
+        res.send(result)
     })
     // get toy to all toy page
     app.get('/toys', async(req, res)=> {
@@ -48,9 +48,28 @@ async function run() {
       res.send(result)
     })
 
+    // click on view details page to show clicked data
+    app.get('/toys/:id', async(req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = {_id: new ObjectId(id)}
+
+      const options = {
+        projection: {_id:1, toy_name: 1, image: 1, seller_name: 1, email: 1, quantity: 1, price: 1, category: 1, ratings: 1, description: 1}
+      }
+      const result = await addToyCollection.findOne(query, options)
+      res.send(result)
+    })
+
+
+    // my toys
+    app.get('/myToys/:email', async(req, res) => {
+      
+    })
+
     // get toy by filtering
 
-    app.get('/toys/:text', async(req, res) => {
+    app.get('/categoryToys/:text', async(req, res) => {
       console.log(req.params.text);
       if(req.params.text == "racing" || req.params.text == "regular" || req.params.text == "trucks"){
         const cursor = addToyCollection.find({category: req.params.text})

@@ -42,6 +42,13 @@ async function run() {
         console.log(result);
         res.send
     })
+    // get toy to all toy page
+    app.get('/toys', async(req, res)=> {
+      const result = await addToyCollection.find({}).toArray()
+      res.send(result)
+    })
+
+    // get toy by filtering
 
     app.get('/toys/:text', async(req, res) => {
       console.log(req.params.text);

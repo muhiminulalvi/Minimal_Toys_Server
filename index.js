@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-require('dotenv').config()
+require("dotenv").config();
 const port = process.env.PORT || 5000;
 const app = express();
 
@@ -9,9 +9,7 @@ app.use(cors());
 app.use(express.json());
 console.log(process.env.DB_PASSWORD);
 
-
-const uri =
-  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.kkbgyge.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.kkbgyge.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -28,63 +26,90 @@ async function run() {
     await client.connect();
 
     // const toyCollection = client.db('minimalToys').collection('toys');
-  
+
     // app.get('/toys/:text', async(req, res) => {
-      
-        
+
     // })
 
     // add toy
-    const addToyCollection = client.db('minimalToys').collection('addToy')
+    const addToyCollection = client.db("minimalToys").collection("addToy");
 
-    const indexKeys = { toy_name: 1 }; 
-    const indexOptions = { name: "toy_name" }; 
+    const indexKeys = { toy_name: 1 };
+    const indexOptions = { name: "toy_name" };
     const result = await addToyCollection.createIndex(indexKeys, indexOptions);
     console.log(result);
 
-    app.post('/addtoy', async(req,res) => {
-        const body = req.body
-        const result = await addToyCollection.insertOne(body)
-        console.log(result);
-        res.send(result)
-    })
+    app.post("/addtoy", async (req, res) => {
+      const body = req.body;
+      body.price = parseFloat(body.price);
+      const result = await addToyCollection.insertOne(body);
+      console.log(result);
+      res.send(result);
+    });
     // get toy to all toy page
-    app.get('/toys', async(req, res)=> {
-      const limit = parseInt(req.query.limit) || 20; 
-      const result = await addToyCollection.find({}).limit(limit).toArray()
-      res.send(result)
-    })
+    app.get("/toys", async (req, res) => {
+      const limit = parseInt(req.query.limit) || 20;
+      const result = await addToyCollection.find({}).limit(limit).toArray();
+      res.send(result);
+    });
 
     // click on view details page to show clicked data
-    app.get('/toys/:id', async(req, res) => {
+    app.get("/toys/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);
-      const query = {_id: new ObjectId(id)}
+      const query = { _id: new ObjectId(id) };
 
       const options = {
-        projection: {_id:1, toy_name: 1, image: 1, seller_name: 1, email: 1, quantity: 1, price: 1, category: 1, ratings: 1, description: 1}
-      }
-      const result = await addToyCollection.findOne(query, options)
-      res.send(result)
-    })
-
+        projection: {
+          _id: 1,
+          toy_name: 1,
+          image: 1,
+          seller_name: 1,
+          email: 1,
+          quantity: 1,
+          price: 1,
+          category: 1,
+          ratings: 1,
+          description: 1,
+        },
+      };
+      const result = await addToyCollection.findOne(query, options);
+      res.send(result);
+    });
 
     // my toys
-    app.get('/mytoys', async(req, res) => {
+    app.get("/mytoys", async (req, res) => {
       console.log(req.query.email);
-      let query = {}
-      if(req.query?.email){
-        query = {email: req.query.email}
-      }
-      const result = await addToyCollection.find(query).toArray()
-      res.send(result)
-    })
+      const { email, sort } = req.query;
+      const filter = email ? { email } : {};
+
+      // Determine the sort option based on the 'sort' query parameter
+      const sortOption = sort === "desc" ? -1 : 1;
+
+      // Define the sort order based on the sort option
+      const sortOrder = sortOption === 1 ? "ascending" : "descending";
+
+      // Sort the query results by 'price' field and apply the sort order
+      const result = await addToyCollection
+        .find(filter)
+        .sort({ price: sortOption })
+        .toArray();
+
+      res.send(result);
+      // let query = {};
+      // if (req.query?.email) {
+      //   query = { email: req.query.email };
+      // }
+      // const result = await addToyCollection.find(query).toArray();
+      // res.send(result);
+    });
 
     // update
-    app.put('/mytoys/:id', async(req, res) => {
-      const id = req.params.id
-      const filter = {_id: new ObjectId(id)}
+    app.put("/mytoys/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
       const toyUpdate = req.body;
+      toyUpdate.price = parseFloat(toyUpdate.price);
       const updateDoc = {
         $set: {
           description: toyUpdate.description,
@@ -92,37 +117,41 @@ async function run() {
           quantity: toyUpdate.quantity,
           toy_name: toyUpdate.toy_name,
           image: toyUpdate.image,
-          category: toyUpdate.category
+          category: toyUpdate.category,
         },
       };
       console.log(toyUpdate);
       const result = await addToyCollection.updateOne(filter, updateDoc);
       res.send(result);
-    })
+    });
 
     // delete
-    app.delete('/mytoys/:id', async(req, res)=> {
+    app.delete("/mytoys/:id", async (req, res) => {
       const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
-      const result = await addToyCollection.deleteOne(query)
-      res.send(result)
-    })
+      const query = { _id: new ObjectId(id) };
+      const result = await addToyCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // get toy by filtering
 
-    app.get('/categoryToys/:text', async(req, res) => {
+    app.get("/categoryToys/:text", async (req, res) => {
       console.log(req.params.text);
-      if(req.params.text == "racing" || req.params.text == "regular" || req.params.text == "trucks"){
-        const cursor = addToyCollection.find({category: req.params.text})
-        const result = await cursor.toArray()
-        return res.send(result)
+      if (
+        req.params.text == "racing" ||
+        req.params.text == "regular" ||
+        req.params.text == "trucks"
+      ) {
+        const cursor = addToyCollection.find({ category: req.params.text });
+        const result = await cursor.toArray();
+        return res.send(result);
       }
-      const cursor = addToyCollection.find()
-        const result = await cursor.toArray()
-        res.send(result)
+      const cursor = addToyCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
       // const result = await addToyCollection.find({}).toArray()
       // res.send(result)
-    })
+    });
 
     // searching
     app.get("/getToysByText/:text", async (req, res) => {
@@ -132,8 +161,6 @@ async function run() {
         .toArray();
       res.send(result);
     });
-    
-    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

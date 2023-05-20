@@ -22,7 +22,6 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
 
     // add toy to the collection
@@ -72,7 +71,7 @@ async function run() {
       const { email, sort } = req.query;
       const filter = email ? { email } : {};
       const sortOption = sort === "desc" ? -1 : 1;
-      // Sort the query results by 'price' 
+      // Sort the query results by 'price'
       const result = await addToyCollection
         .find(filter)
         .sort({ price: sortOption })
@@ -137,13 +136,8 @@ async function run() {
       res.send(result);
     });
 
-    // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
-    // console.log(
-    //   "Pinged your deployment. You successfully connected to MongoDB!"
-    // );
   } finally {
-    // Ensures that the client will close when you finish/error
     // await client.close();
   }
 }

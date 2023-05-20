@@ -36,6 +36,12 @@ async function run() {
 
     // add toy
     const addToyCollection = client.db('minimalToys').collection('addToy')
+
+    const indexKeys = { toy_name: 1 }; 
+    const indexOptions = { name: "toy_name" }; 
+    const result = await addToyCollection.createIndex(indexKeys, indexOptions);
+    console.log(result);
+
     app.post('/addtoy', async(req,res) => {
         const body = req.body
         const result = await addToyCollection.insertOne(body)
@@ -116,6 +122,17 @@ async function run() {
       // const result = await addToyCollection.find({}).toArray()
       // res.send(result)
     })
+
+    // searching
+    app.get("/getToysByText/:text", async (req, res) => {
+      const text = req.params.text;
+      const result = await addToyCollection
+        .find({ toy_name: { $regex: text, $options: "i" } })
+        .toArray();
+      res.send(result);
+    });
+    
+    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

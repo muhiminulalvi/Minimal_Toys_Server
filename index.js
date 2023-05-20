@@ -50,7 +50,8 @@ async function run() {
     })
     // get toy to all toy page
     app.get('/toys', async(req, res)=> {
-      const result = await addToyCollection.find({}).toArray()
+      const limit = parseInt(req.query.limit) || 20; 
+      const result = await addToyCollection.find({}).limit(limit).toArray()
       res.send(result)
     })
 

@@ -71,14 +71,8 @@ async function run() {
       console.log(req.query.email);
       const { email, sort } = req.query;
       const filter = email ? { email } : {};
-
-      // Determine the sort option based on the 'sort' query parameter
       const sortOption = sort === "desc" ? -1 : 1;
-
-      // Define the sort order based on the sort option
-      const sortOrder = sortOption === 1 ? "ascending" : "descending";
-
-      // Sort the query results by 'price' field and apply the sort order
+      // Sort the query results by 'price' 
       const result = await addToyCollection
         .find(filter)
         .sort({ price: sortOption })
